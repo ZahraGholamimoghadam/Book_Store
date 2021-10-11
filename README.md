@@ -15,9 +15,7 @@ There are three types of users: **staff**, **customer** and **manager** each wit
 * Apply a discount code on order (if customer have a discount code)
 * View and edit profile
 * View orders' history
-
-
-
+<br><br/>
 ![Capture6](https://user-images.githubusercontent.com/82253546/136805848-762642e1-cdbd-4df1-adf0-4da2f4005805.PNG)
 <br></br>
 
