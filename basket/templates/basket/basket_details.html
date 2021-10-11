@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}سبد خرید{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <table class="table table-bordered mt-5 border-secondary align-middle m-auto" dir="rtl"
+                    style="width: 800px">
+              <thead>
+                <tr class="text-center">
+                  <th scope="col">#</th>
+                  <th scope="col">تصویر</th>
+                  <th scope="col">نام کتاب</th>
+                  <th scope="col">قیمت واحد</th>
+                  <th scope="col">تعداد</th>
+                  <th scope="col">قیمت کل نهایی</th>
+                  <th scope="col">حذف</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                  {% for basket in baskets %}
+                    <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td><img src="{{ basket.book.image.url }}" style="width: 80px; height: 100px"></td>
+                      <td>{{ basket.book.title }}</td>
+                      <td>{{ basket.book.unit_price }}</td>
+                      <td>
+                           <a href="{% url 'basket:increase_one_book' basket.id %}"><i class="fa fa-plus mx-1"></i></a>
+                           {{ basket.quantity }}
+                           <a href="{% url 'basket:decrease_one_book' basket.id %}"><i class="fa fa-minus mx-1"></i></a>
+                      </td>
+                      <td>{% widthratio basket.book.final_price 1 basket.quantity %}</td>
+                      <td>
+                          <a href="{% url 'basket:remove_from_basket' basket.id %}"><i class="fa fa-trash" style="color: red"></i></a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  <tr>
+                      <td colspan="7" style="font-weight: bold; background-color: #EDF1F2">قیمت کل:
+                          {{ total_discount_free }}   </td>
+                  </tr>
+                  {% if total_with_discount != total_discount_free %}
+                    <tr>
+                      <td colspan="7" style="font-weight: bold; background-color: #EDF1F2; border-top: hidden" >قیمت کل با اعمال تخفیف:
+                          {{ total_with_discount }}   </td>
+                    </tr>
+                  {% endif %}
+              </tbody>
+            </table>
+        </div>
+        <div class="text-center my-5">
+            <a href="{% url 'order:create_order' %}">
+                <button type="submit" class="btn" style="background-color: goldenrod;">ثبت سفارش</button>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+

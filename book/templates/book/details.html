@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}جزئیات کتاب{% endblock %}
+{% block content %}
+    <div class="container py-3 m-auto my-5">
+        <div class="row">
+            <div class="col-8" dir="rtl">
+                <div class="col">
+                    <p style="font-weight: bold">کتاب {{ book.title }}</p>
+                    <br>
+                    {% if book.quantity == 0%}
+                        <p class="btn-danger fw-bold" style="width: 100px">موجود نیست</p>
+                    {% endif %}
+                    <p style="font-weight: bold">مختصری از کتاب:</p>
+                    {{ book.description }}
+                </div>
+                <div class="col my-4">
+                    {% if user.is_staff == False %}
+                        <form action="{% url 'basket:add_to_basket' book.id %}" method="post">
+                            {% csrf_token %}
+                             <button type="submit" style="background-color: #395697; border-radius: 5px;
+                                margin-left: 5px; font-weight: bold;"
+                                class="text-white p-2 btn">افزودن به سبد خرید</button>
+                             <input type="number" name="quantity" value="1" min= "1" max="{{ book.inventory }}"
+                                required oninvalid="setCustomValidity('حداکثر تعداد انتخابی باید {{ book.inventory }}باشد.')">
+                             <br><br>
+                        </form>
+                    {% endif %}
+                    {% if user.is_staff == True %}
+                         <a href="{% url 'book:edit_book' book.pk %}" class="btn ml-2" style="background-color: #7DC8C6">ویرایش کتاب</a>
+                         <a href="{% url 'book:delete_book' book.pk %}" class="btn btn-danger mx-4">حذف کتاب</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-3" dir="rtl">
+                 <img src="{{ book.image.url }}" alt="" style="width: 230px; height: 300px"><br>
+            </div>
+        </div>
+    </div>
+{% endblock %}

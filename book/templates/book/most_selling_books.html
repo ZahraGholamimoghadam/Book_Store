@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}پرفروش ترینها{% endblock %}
+{% block content %}
+    <div class=" row m-4">
+        {% for book in most_selling_books %}
+            <div class="card col-3 my-3" style="width: 11rem; height: 300px; background-color:#E9EDED">
+                <div class="  text-center m-auto" dir="rtl">
+                    <a class="card-title text-decoration-none" href="{% url 'book:details' book.id %}"
+                    style="color:#0073b1; font-weight: bold">
+
+                            <img src="{{ book.image.url }}" class="card-img-top py-0 text-center mb-2" alt="..."
+                                 height="200px">
+                        {{ book.title|truncatechars:24 }}
+                    </a>
+                </div>
+                {% if book.percent_discount or book.cash_discount %}
+                    {% if  book.unit_price != book.final_price %}
+                        <span style="text-decoration: line-through" class="text-center text-secondary">
+                            {{ book.unit_price }}</span>
+                    {% endif %}
+                    <span class="text-center text-primary text-secondary"> (تومان) {{ book.final_price }}</span>
+                {% else %}
+                <p class="text-center text-primary text-secondary">(تومان) {{ book.unit_price }}  </p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

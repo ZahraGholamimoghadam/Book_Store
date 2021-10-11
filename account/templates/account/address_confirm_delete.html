@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card my-5 text-center py-3 m-auto" style="width: 400px; height: 150px ">
+    <p> آیا از حذف کردن آدرس {{ address }} مطمئن هستید؟</p>
+        <div class="m-auto" >
+            <form method="post">
+                {% csrf_token %}
+                <a class="btn btn-info mx-2" href="{% url 'account:edit_profile' address.user.pk %}">خیر</a>
+                <button type="submit" class="btn btn-danger">بله</button>
+            </form>
+        </div>
+  </div>
+{% endblock %}

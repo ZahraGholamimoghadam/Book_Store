@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="card m-auto mt-5" style="width: 40rem;">
+        <div class="card-body text-center">
+            <h5 class="card-title">.کاربر محترم سفارش شما ثبت شد</h5>
+            <h6 class="card-subtitle my-4 text-muted">هزینه کل سفارش: {{ order.total_price }}</h6>
+            <p class="card-text mt-5">.در صورت داشتن کد تخفیف در قسمت زیر وارد کنید</p>
+            <form action="{% url 'order:coupon' order.id %}" method="post" class="mt-4">
+                {% csrf_token %}
+        {#            {{ coupon_form }}#}
+                <input type="text" name="code">
+                <button type="submit" class="btn btn-info">اعمال کد تخفیف</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+

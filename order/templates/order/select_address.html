@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="card m-auto my-5" dir="rtl" style="width: 550px">
+      <h6 class="card-header text-center">انتخاب آدرس مورد نظر جهت ارسال سفارش</h6>
+      <div class="card-body mt-4">
+        <form method="post" action="{% url 'order:create_order' %}">
+            {% csrf_token %}
+            {% if addresses is not None %}
+                <select class="form-select" aria-label="Default select example" name="address_pk">
+                    {% for address in addresses %}
+                        {% if  address.is_default == True %}
+                            <option value="{{ address.pk }}" selected>{{ address }}</option>
+                        {% endif %}
+                    {% endfor %}
+                    {% for address in addresses %}
+                        {% if  address.is_default == False %}
+                           <option value={{ address.pk }}>{{ address }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            {% endif %}
+            <div dir="rtl" class="m-auto mt-4" style="font-weight: bold">
+                <a href="{% url 'account:create_address' %}" class="text-decoration-none" style="color: #2D8380">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                 افزودن آدرس جدید
+                </a>
+            </div>
+            <div style="text-align: center">
+                <button type="submit" class="btn my-5 mr-5" style="width: 150px;
+            background-color:goldenrod"> ثبت نهایی سفارش</button>
+            </div>
+        </form>
+      </div>
+    </div>
+{% endblock %}

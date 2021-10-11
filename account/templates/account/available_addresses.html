@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+    <table class="table table-bordered border-secondary  m-auto my-5" dir="rtl" style="width: 700px">
+      <thead class="text-center">
+        <tr>
+          <th scope="col">آدرس</th>
+          <th scope="col">ویرایش/حذف</th>
+        </tr>
+      </thead>
+      <tbody class="text-center">
+       {% for address in addresses %}
+        <tr>
+          <td>{{ address }} . کد پستی: {{ address.postal_code }}</td>
+          <td>
+              <a href="{% url 'account:edit_address' address.pk %}">
+                  <i class="fas fa-edit fa-x mx-2" style="color: green"></i>
+              </a>
+              <a href="{% url 'account:remove_address' address.id %}">
+                  <i class="fa fa-remove fa-x mx-2" style="color: red"></i>
+              </a>
+          </td>
+        </tr>
+       {% endfor %}
+      </tbody>
+    </table>
+    <div class="text-center">
+        <a type="submit" href="{% url 'account:edit_profile' user.pk %}" class="btn btn-secondary
+        p-2">بازگشت به پروفایل</a>
+    </div>
+{% endblock %}

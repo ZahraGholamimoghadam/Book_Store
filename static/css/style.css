@@ -1,0 +1,21 @@
+.drop-down02{
+	position:relative;
+}
+.drop-down02 .sub-menu02
+{
+	position: absolute !important;
+	left: 100%;
+	top: 0;
+}
+
+.drop-down02 .dropdown-toggle{
+	padding:.25rem 1.1rem !important;
+}
+
+@media screen and (max-width :767px)
+{
+	.drop-down02 .sub-menu02
+	{
+		position:static !important;
+	}
+}

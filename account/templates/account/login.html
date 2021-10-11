@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <div class="container mt-5 text-center card" style="background-color: #CFE3DC;
+     width: 280px; border-radius: 10px">
+        <form action="" method="post" class="pt-4">
+            {% csrf_token %}
+            <input type="text" style="text-align: center; border-radius: 5px; border: 1px solid gray;
+            width: 230px" name="email" placeholder="ایمیل"><br><br>
+            <input type="password" style="text-align: center;width: 230px; border-radius:5px; border: 1px solid gray"
+                   name="password" placeholder="پسورد"><br><br>
+            <button type="submit" style="border-radius: 5px; background-color: #1abc9c; height: 35px" class="text-white btn pt-0" >ورود</button><br><br>
+            <div class="my-4">
+                <a href="{% url 'account:forget_password' %}" style="text-decoration: none">رمز عبور خود را فراموش کرده اید؟</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+

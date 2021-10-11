@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link href="{% static 'book/add_book.css' %}" rel="stylesheet">
+{% endblock %}
+{%load crispy_forms_tags %}
+{% block content %}
+    <form method="post" dir="rtl">
+        {% csrf_token %}
+{#        {{ form|crispy}}#}
+        <div class="container py-3 mt-4 card " style="background-color:#f6f6f6; width: 500px; height: 770px">
+            <h5 class="text-center">ویرایش کتاب</h5>
+            <div class="px-5 pt-4" >
+                <div class="row">
+                  <div class=" col-6 mb-2">
+                    {{ form.title|as_crispy_field }}
+                  </div>
+                  <div class=" col-6 mb-2">
+                    {{ form.author|as_crispy_field }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class=" col-6 mb-2">
+                    {{ form.inventory|as_crispy_field }}
+                  </div>
+                  <div class=" col-6 mb-2">
+                    {{ form.unit_price|as_crispy_field }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class=" col-6 mb-2">
+                    {{ form.percent_discount|as_crispy_field }}
+                  </div>
+                  <div class=" col-6 mb-2">
+                    {{ form.cash_discount|as_crispy_field }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class=" col-6 mb-2">
+                    {{ form.category|as_crispy_field }}
+                  </div>
+                  <div class=" col-6 mb-2">
+                    {{ form.image|as_crispy_field }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class=" col-3 mb-2">
+                    {{ form.description|as_crispy_field }}
+                  </div>
+                </div>
+                <div style="padding-right: 130px">
+                <button type="submit" style="width: 80px" class="mt-3 mb-4">ذخیره</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

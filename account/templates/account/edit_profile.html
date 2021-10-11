@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ٍویرایش پروفایل{% endblock %}
+{% block css %}
+    <link href="{% static 'account/register.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <form action="" method="post" novalidate id="register_form" class="card card-body">
+        <h5 class="mb-5">ویرایش پروفایل</h5>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <div dir="rtl" class="text-right mb-4" style="font-weight: bold;">
+            <a href="{% url 'account:change' %}" class="text-decoration-none" style="color: #2D8380">تغییر رمز عبور</a>
+        </div>
+        <div dir="rtl" class="text-right mb-4" style="font-weight: bold;">
+            <a href="{% url 'account:available_addresses' user.id %}" class="text-decoration-none" style="color: #2D8380"></i>
+             مشاهده آدرسهای موجود
+            </a>
+        </div>
+        <div dir="rtl" class="text-right mb-4" style="font-weight: bold">
+            <a href="{% url 'account:create_address' %}" class="text-decoration-none" style="color: #2D8380">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+             افزودن آدرس جدید
+            </a>
+        </div>
+        <button type="submit" class="text-white" style="background-color: #395697">ذخیره</button>
+    </form>
+{% endblock %}

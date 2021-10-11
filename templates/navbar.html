@@ -1,0 +1,120 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="position: sticky; top: 0px;
+ height: 70px; z-index: 1">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  <ul class="list-unstyled">
+      <li class="text-center pt-2">
+          <i class="fa fa-user fa-lg text-white"></i>
+          {% if not user.is_authenticated %}
+              <div class="container">
+                  <div class="row">
+                    <a class="nav-link col-2 text-white" href="{% url 'account:login' %}"> ورود</a>
+                    <a class="nav-link col-8 text-white ml-2" href="{% url 'account:register' %}">ثبت نام</a>
+                  </div>
+              </div>
+          {% endif %}
+          {% if user.is_authenticated and user.is_staff %}
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                     data-bs-toggle="dropdown" aria-expanded="falses" style="padding-top: 0px">
+                      {{ user.email }}
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="{% url 'book:create_book' %}">افزودن کتاب</a></li>
+                      <li><a class="dropdown-item" href="{% url 'book:create_category' %}">افزودن دسته بندی</a></li>
+                      <li class="nav-item dropdown drop-down02 dropend">
+                          <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            افزودن تخفیف
+                          </a>
+                          <ul class="dropdown-menu sub-menu02" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'book:create_cash_discount' %}">تخفیف نقدی</a></li>
+                            <li><a class="dropdown-item" href="{% url 'book:create_percent_discount' %}">تخفیف درصدی</a></li>
+                            <li><a class="dropdown-item" href="{% url 'order:create_code_discount' %}">تخفیف کدی</a></li>
+                          </ul>
+                      </li>
+                      {% if user.is_superuser %}
+                          <li><a class="dropdown-item" href="{% url 'account:report' %}">گزارش گیری</a></li>
+                          <li><a class="dropdown-item" href="{% url 'account:create_staff' %}">تعریف کارمند</a></li>
+                      {% endif %}
+                      <li><a class="dropdown-item" href="{% url 'account:logout' %}">خروج</a></li>
+                  </ul>
+              </li>
+          {% endif %}
+          {% if user.is_authenticated and not user.is_staff %}
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                     style="padding-top: 0px" data-bs-toggle="dropdown" aria-expanded="false">
+                      {{ user.email }}
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{% url 'account:edit_profile' user.pk %}">ویرایش پروفایل</a></li>
+                    <li><a class="dropdown-item" href="{% url 'account:history' %}">تاریخچه سفارشات</a></li>
+                    <li><a class="dropdown-item" href="{% url 'account:logout' %}">خروج</a></li>
+                  </ul>
+              </li>
+          {% endif %}
+      </li>
+  </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if user.is_authenticated and not user.is_staff %}
+          <li class="nav-item">
+              <a class="nav-link active mx-3" aria-current="page" href="{% url 'basket:basket_detail' %}">
+                  <i class="fa fa-shopping-basket fa-x text-white" aria-hidden="true" ></i>
+              </a>
+          </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link mx-3"  href="{% url 'book:home' %}">
+              <i class="fa fa-home fa-x text-white" ></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mx-3 text-white"  id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+             aria-expanded="false">
+              کتابها
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'book:all_books' %}">همه</a></li>
+            <li><a class="dropdown-item" href="{% url 'book:most_selling_books' %}">پرفروشترین&zwnj;ها</a></li>
+            <li class="nav-item dropdown drop-down02 dropend">
+              <a class="nav-link dropdown-toggle text-dark" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                دسته بندی
+              </a>
+            <ul class="dropdown-menu sub-menu02" aria-labelledby="navbarDropdown">
+              {% for parent_category in parent_categories %}
+                  {% if not parent_category.categories.all %}
+                    <li><a class="dropdown-item" href="{{ parent_category.get_absolute_url }}">{{ parent_category.name }}</a></li>
+                  {% else %}
+                      <li class="nav-item dropdown drop-down02 dropend">
+                          <a class="nav-link dropdown-toggle text-dark" href="{{ obj.get_absolute_url }}"
+                             id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ parent_category.name }}
+                          </a>
+                          <ul class="dropdown-menu sub-menu02" aria-labelledby="navbarDropdown">
+                            {% for sub_category in parent_category.categories.all %}
+                                <li><a class="dropdown-item" href="{{ sub_category.get_absolute_url }}">{{ sub_category.name}}</a></li>
+                            {% endfor %}
+                          </ul>
+                      </li>
+                  {% endif %}
+              {% endfor %}
+            </ul>
+          </li>
+          </ul>
+        </li>
+      </ul>
+      <form  action="{% url 'book:search' %}" method="get" id="navBarSearchForm"
+                class=" form-inline float-sm-right" style="width: 400px;">
+        <input  class="form-control m-2" onfocus=this.value='' name="input_search" type="text"
+                placeholder="جستجو بر اساس نام کتاب یا نویسنده" style="
+                border-radius:15px; text-align: center">
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+
